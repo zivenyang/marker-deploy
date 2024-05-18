@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   api:
+    container_name: api
     build:
       context: ./marker-api
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
       - marker-network
 
   ui:
+    container_name: ui
     build:
       context: ./marker-ui
       dockerfile: Dockerfile
@@ -30,4 +32,3 @@ services:
 networks:
   marker-network:
     driver: bridge
-    internal: true
