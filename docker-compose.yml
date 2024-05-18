@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   api:
-    container_name: api
+    container_name: marker-api
     build:
       context: ./marker-api
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
       - marker-network
 
   ui:
-    container_name: ui
+    container_name: marker-ui
     build:
       context: ./marker-ui
       dockerfile: Dockerfile
