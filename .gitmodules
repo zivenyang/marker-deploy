@@ -1,0 +1,6 @@
+[submodule "marker-api"]
+	path = marker-api
+	url = https://github.com/zivenyang/marker-api.git
+[submodule "marker-ui"]
+	path = marker-ui
+	url = https://github.com/zivenyang/marker-ui.git

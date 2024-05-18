@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./marker-api
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - MARKER_API_HOST=0.0.0.0
+    shm_size: '32gb'
+    restart: always
+    networks:
+      - marker-network
+
+  ui:
+    build:
+      context: ./marker-ui
+      dockerfile: Dockerfile
+    ports:
+      - "28000:80"
+    restart: always
+    networks:
+      - marker-network
+    depends_on:
+      - api
+
+networks:
+  marker-network:
+    driver: bridge
