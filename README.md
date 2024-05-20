@@ -25,16 +25,27 @@ docker-compose up -d --build
 ## 使用
 访问[http://localhost:28000/](http://localhost:28000/)进行访问
 
-点击第一个图标上传pdf文件进行识别，识别时长取决与本机算力，第一次使用会从huggingface上下载模型，本镜像默认使用的cpu计算，识别时间较长（约10分钟），如需使用gpu请修改docker-compose.yml中的api服务
+点击第一个图标上传pdf文件进行识别，识别时长取决与本机算力，第一次使用会从huggingface上下载模型，本镜像默认使用的cpu计算，识别时间较长（约10分钟），如需使用gpu请修改docker-compose.yml中的api服务，参考[Turn on GPU access with Docker Compose](https://docs.docker.com/compose/gpu-support/)
 ![使用教程](./images/image.png)
 
+中文识别需要将在`marker-deploy/marker-api/server.py`中将默认语言改为`Chinese`以提高中文识别准确率，修改后记得返回`marker-deploy`目录使用`docker-compose up -d --build`重新构建服务
+```python
+@app.post("/convert")
+async def convert_pdf_to_markdown(pdf_file: UploadFile = File(...), extract_images: bool = True):
+    Settings.DEFAULT_LANG="Chinese" # 将默认语言设置为中文
+    if extract_images == False:
+        Settings.EXTRACT_IMAGES = False
+        print("Print EXTRACT_IMAGES set to False")
+    else:
+        Settings.EXTRACT_IMAGES = True
+...
+```
+
 ## 效果
-![识别xiaog](./images/image2.png)
+![识别效果](./images/image2.png)
 
 ## 不足
 - 暂不支持图片预览，但接口有返回base64编码
-- marker-api原生模型对中文的识别效果欠佳，后续可考虑对接国产识别模型
-- 交互体验有待改进
 
 ## 依赖
 - [marker](https://github.com/VikParuchuri/marker.git)
